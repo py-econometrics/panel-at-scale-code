@@ -1,2 +1,3 @@
 # panel-at-scale-code
-code for panel models at scale
+
+Code to reproduce figures in CODE paper panel regressions at scale. 
