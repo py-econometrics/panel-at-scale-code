@@ -1,0 +1,26 @@
+[project]
+authors = [{name = "Alexander Fischer", email = "alexander-fischer1801@t-online.de"}]
+dependencies = ["pyfixest", "duckreg", "statsmodels", "ipykernel", "duckdb"]
+description = "Add a short description here"
+name = "panel-scale-code"
+requires-python = ">= 3.11"
+version = "0.1.0"
+
+[project.optional-dependencies]
+default = ["statsmodels", "duckdb"]
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["win-64"]
+
+[tool.pixi.pypi-dependencies]
+panel-scale-code = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+
+[tool.hatch.build.targets.wheel]
+packages = ["panel_scale_code"]
