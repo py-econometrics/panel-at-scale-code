@@ -13,7 +13,12 @@ def twfe_fixest(df, T, T0):
 
 def twfe_fixest_compressed(df, T, T0):
     try: 
-        m = pf.feols("Y~W | unit + time", df, use_compression = True).tidy()
+        m = pf.feols(
+            fml = "Y~W | unit + time",
+            data = df, 
+            use_compression = True, 
+            reps = 1
+        ).tidy()
     except MemoryError:
         print("MemoryError: Not enough memory to run.")
 

@@ -1,6 +1,6 @@
 [project]
 authors = [{name = "Alexander Fischer", email = "alexander-fischer1801@t-online.de"}]
-dependencies = ["pyfixest", "duckreg", "statsmodels", "ipykernel", "duckdb"]
+dependencies = [ "duckreg", "statsmodels", "ipykernel", "duckdb", "pyfixest>=0.25.2", "pyarrow>=17.0.0,<18"]
 description = "Add a short description here"
 name = "panel-scale-code"
 requires-python = ">= 3.11"
