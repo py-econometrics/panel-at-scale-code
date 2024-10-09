@@ -15,15 +15,24 @@ class Bench:
         self.df = generate_benchmark_data(N = N, T = T, T0 = T0)
         self.timings = {}
 
-    def mark(self, fun):
+    def mark(self, fun, reps = 0):
 
-        fun_name = fun.__name__  # Get the name of the function
+        if fun in ["duckreg", "feols_compressed"]:
+            fun_name = f"{fun.__name__} + reps = {reps}"
+        else: 
+            fun_name = fun.__name__
+            
         self.timings[fun_name] = np.zeros(self.iter)
 
         for i in range(self.iter): 
-            start = time.time()
-            fun(df = self.df, T = self.T, T0 = self.T0)
-            self.timings[fun_name][i] = time.time() - start
+
+            try:
+                start = time.time()
+                fun(df=self.df, T=self.T, T0=self.T0, reps = reps)
+                self.timings[fun_name][i] = time.time() - start
+            except MemoryError:
+                print(f"MemoryError encountered in {fun_name}. Assigning np.nan.")
+                self.timings[fun_name][i] = np.nan
 
     def to_dataframe(self): 
 
