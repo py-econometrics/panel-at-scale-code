@@ -28,11 +28,32 @@ class Bench:
 
             try:
                 start = time.time()
-                fun(df=self.df, T=self.T, T0=self.T0, reps = reps)
-                self.timings[fun_name][i] = time.time() - start
-            except MemoryError:
-                print(f"MemoryError encountered in {fun_name}. Assigning np.nan.")
+                timeout = 600  # 10 minutes in seconds
+                
+                # Run the function in a while loop to monitor its execution time
+                while True:
+                    if time.time() - start > timeout:
+                        print(f"Timeout reached for {fun_name}. Assigning np.nan.")
+                        self.timings[fun_name][i] = np.nan
+                        break
+                    
+                    try:
+                        fun(df=self.df, T=self.T, T0=self.T0, reps=reps)
+                        self.timings[fun_name][i] = time.time() - start
+                        break  # Break if the function completes within the time limit
+                    
+                    except MemoryError:
+                        print(f"MemoryError encountered in {fun_name}. Assigning np.nan.")
+                        self.timings[fun_name][i] = np.nan
+                        break
+
+            except Exception as e:
+                print(f"An unexpected error occurred: {e}")
                 self.timings[fun_name][i] = np.nan
+
+        self.timings_df = pd.DataFrame(self.timings)
+
+        return self.timings_df
 
     def to_dataframe(self): 
 
